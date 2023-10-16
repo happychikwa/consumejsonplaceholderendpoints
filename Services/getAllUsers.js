@@ -1,20 +1,26 @@
-const users = async () => {
-    const response = await fetch('https://jsonplaceholder.typicode.com/users')
-    const users = await response.json()
-    if(!response.ok){
-        return response.status
-    }
-    return {
-        "status": response.status,
-        "content": users,
-        "links":  {
-            "next" : "nextlink",
-            "prev" : "prevlink"
+const getAllusers = async () => {
+    try {
+        const response = await fetch('https://jsonplaceholder.typicode.com/users')
+        const users = await response.json()
+        if(!response.ok){
+            throw new Error(`[{status:${response.status}, content:${response.statusText}}]`)
         }
+        return {
+            "status": response.status,
+            "content": users,
+            "links":  {
+                "next" : "nextlink",
+                "prev" : "prevlink"
+            }
+        }        
+    } catch (error) {
+        console.log(error)
+        return [{ status: 500, content: "Internal Server Error"}]
     }
+
 }
 
-const userById = async (id) => {
+const getUserById = async (id) => {
     const response = await fetch('https://jsonplaceholder.typicode.com/users')
     const users = await response.json()
     if(!response.ok){
@@ -31,4 +37,4 @@ const userById = async (id) => {
     }
 }
 
-module.exports = { users, userById }
+module.exports = { getAllusers, getUserById }
