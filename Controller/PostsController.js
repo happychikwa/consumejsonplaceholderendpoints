@@ -3,10 +3,12 @@ const postsRouter = express.Router()
 const {getAllPosts, getPostsById} = require('../Services/getAllPosts')
 
 postsRouter.get('/posts',async(req, res) => {
-    return await res.status(200).send(await getAllPosts())
+    const data = await getAllPosts()
+    return await res.status(data.status).send(data)
 })
 postsRouter.get('/posts/:id', async(req, res) => {
-    return res.status(200).send(await getPostsById(req.params.id))
+    const data = await getPostsById(req.params.id)
+    return res.status(data.status).send(data)
 })
 
 module.exports = postsRouter
