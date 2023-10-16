@@ -4,7 +4,8 @@ const usersRouter = express.Router()
 const { getAllusers, getUserById } = require('../Services/getAllUsers')
 
 usersRouter.get('/users', async(req, res, next) => {
-    return res.status(200).send(await getAllusers())
+    const data = await getAllusers();
+    return res.status(data.status).send(data)
 })
 
 usersRouter.get('/user/:id', async (req, res) => {
